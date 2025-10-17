@@ -1,0 +1,214 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Neutrals */
+  --background: #ffffff;
+  --foreground: #0f172a; /* slate-900 */
+
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+
+  /* Primary brand */
+  --primary: #1e3a5f; /* Deep Academic Blue */
+  --primary-foreground: #ffffff;
+
+  /* Secondary/neutral surfaces */
+  --secondary: #f8fafc; /* light gray surface */
+  --secondary-foreground: #0f172a;
+
+  /* Muted */
+  --muted: #f1f5f9; /* slate-100/200 */
+  --muted-foreground: #334155; /* slate-700 */
+
+  /* Accent for CTAs/highlights */
+  --accent: #f59e0b; /* Saffron */
+  --accent-foreground: #1f2937; /* slate-800 for contrast on light accents */
+
+  /* Destructive (maroon tone for errors) */
+  --destructive: #991b1b; /* maroon */
+  --destructive-foreground: #ffffff;
+
+  /* Form/UI */
+  --border: #e5e7eb; /* gray-200 */
+  --input: #e5e7eb;
+  --ring: #1e3a5f; /* focus ring = primary */
+
+  /* Charts (kept analogous to palette) */
+  --chart-1: #1e3a5f;
+  --chart-2: #f59e0b;
+  --chart-3: #991b1b;
+  --chart-4: #065f46;
+  --chart-5: #64748b;
+
+  --radius: 0.625rem;
+
+  /* Sidebar (admin later) */
+  --sidebar: #f8fafc;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #1e3a5f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f59e0b;
+  --sidebar-accent-foreground: #1f2937;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #1e3a5f;
+}
+
+/* Optional dark palette (kept simple and accessible) */
+.dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+
+  --card: #111827;
+  --card-foreground: #f8fafc;
+
+  --popover: #111827;
+  --popover-foreground: #f8fafc;
+
+  --primary: #93c5fd; /* lightened for dark */
+  --primary-foreground: #0f172a;
+
+  --secondary: #1f2937;
+  --secondary-foreground: #f8fafc;
+
+  --muted: #1f2937;
+  --muted-foreground: #cbd5e1;
+
+  --accent: #fbbf24;
+  --accent-foreground: #111827;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #111827;
+
+  --border: #334155;
+  --input: #334155;
+  --ring: #93c5fd;
+
+  --chart-1: #93c5fd;
+  --chart-2: #fbbf24;
+  --chart-3: #fca5a5;
+  --chart-4: #86efac;
+  --chart-5: #c7d2fe;
+
+  --sidebar: #111827;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-primary: #93c5fd;
+  --sidebar-primary-foreground: #111827;
+  --sidebar-accent: #fbbf24;
+  --sidebar-accent-foreground: #111827;
+  --sidebar-border: #334155;
+  --sidebar-ring: #93c5fd;
+}
+
+/* Map fonts: Inter as default sans, add heading utility using Poppins */
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono); /* keep if needed elsewhere */
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* Heading font utility for Poppins */
+.font-heading {
+  font-family:
+    var(--font-poppins), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    line-height: 1.6;
+  }
+}
+
+/* Reusable utilities aligned with spec */
+.btn-accent {
+  @apply bg-accent text-accent-foreground hover:opacity-90 transition;
+}
+
+.badge-open {
+  @apply rounded-full px-3 py-1 text-sm font-semibold bg-green-100 text-green-700;
+}
+.badge-closed {
+  @apply rounded-full px-3 py-1 text-sm font-semibold bg-red-100 text-red-800;
+}
+.badge-upcoming {
+  @apply rounded-full px-3 py-1 text-sm font-semibold bg-amber-100 text-amber-800;
+/* Fade-in animation for hero content */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1.5s ease-out forwards;
+}
+
+/* Ensure video accessibility */
+video {
+  pointer-events: none;
+}
+
+/* Mobile fallback for video */
+@media (max-width: 768px) {
+  video {
+    display: none;
+  }
+  .hero-mobile-fallback {
+    background-image: url('/campus-learning-video-poster.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+}
+}
