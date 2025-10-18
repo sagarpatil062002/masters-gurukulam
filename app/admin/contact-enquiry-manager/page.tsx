@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Download, Eye, Trash2 } from "lucide-react"
+import { Download, Eye, Trash2, Search } from "lucide-react"
 
 interface Contact {
   _id: string
@@ -37,6 +37,8 @@ export default function ContactEnquiryManager() {
   const [loading, setLoading] = useState(true)
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [activeTab, setActiveTab] = useState("contacts")
 
   useEffect(() => {
     fetchContacts()
@@ -115,6 +117,15 @@ export default function ContactEnquiryManager() {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Contact & Enquiry Manager</h1>
           <div className="flex space-x-2">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 w-64"
+              />
+            </div>
             <Button onClick={() => exportData(contacts, 'contacts.csv')}>
               <Download className="h-4 w-4 mr-2" />
               Export Contacts CSV
@@ -126,7 +137,7 @@ export default function ContactEnquiryManager() {
           </div>
         </div>
 
-        <Tabs defaultValue="contacts" className="space-y-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList>
             <TabsTrigger value="contacts">Contact Messages ({contacts.length})</TabsTrigger>
             <TabsTrigger value="admissions">Admission Forms ({admissionForms.length})</TabsTrigger>
@@ -152,26 +163,32 @@ export default function ContactEnquiryManager() {
                       </tr>
                     </thead>
                     <tbody>
-                      {contacts.map((contact) => (
-                        <tr key={contact._id} className="border-b border-gray-100 hover:bg-gray-50">
-                          <td className="py-3 px-4 font-medium">{contact.name}</td>
-                          <td className="py-3 px-4">{contact.email}</td>
-                          <td className="py-3 px-4">{contact.mobile}</td>
-                          <td className="py-3 px-4 max-w-xs truncate">{contact.message}</td>
-                          <td className="py-3 px-4">{new Date(contact.createdAt).toLocaleDateString()}</td>
-                          <td className="py-3 px-4">
-                            <div className="flex space-x-2">
-                              <Button size="sm" variant="outline" onClick={() => viewDetails(contact)}>
-                                <Eye className="h-4 w-4 mr-2" />
-                                View
-                              </Button>
-                              <Button size="sm" variant="outline" onClick={() => handleDelete(contact._id, 'contact')}>
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                      {contacts
+                        .filter(contact =>
+                          contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          contact.message.toLowerCase().includes(searchTerm.toLowerCase())
+                        )
+                        .map((contact) => (
+                          <tr key={contact._id} className="border-b border-gray-100 hover:bg-gray-50">
+                            <td className="py-3 px-4 font-medium">{contact.name}</td>
+                            <td className="py-3 px-4">{contact.email}</td>
+                            <td className="py-3 px-4">{contact.mobile}</td>
+                            <td className="py-3 px-4 max-w-xs truncate">{contact.message}</td>
+                            <td className="py-3 px-4">{new Date(contact.createdAt).toLocaleDateString()}</td>
+                            <td className="py-3 px-4">
+                              <div className="flex space-x-2">
+                                <Button size="sm" variant="outline" onClick={() => viewDetails(contact)}>
+                                  <Eye className="h-4 w-4 mr-2" />
+                                  View
+                                </Button>
+                                <Button size="sm" variant="outline" onClick={() => handleDelete(contact._id, 'contact')}>
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>

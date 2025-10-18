@@ -3,9 +3,25 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Phone, Mail, MapPin, Send } from "lucide-react"
+import { Phone, Mail, MapPin, Send, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { sendContactEmail } from "@/lib/email"
+
+// Client-side email sending wrapper
+const sendEmailClient = async (emailData: any) => {
+  try {
+    const response = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(emailData),
+    })
+    return await response.json()
+  } catch (error) {
+    console.error('Email sending error:', error)
+    return { success: false, error }
+  }
+}
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -22,6 +38,7 @@ export default function ContactPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState("")
+  const [captchaVerified, setCaptchaVerified] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -38,8 +55,15 @@ export default function ContactPage() {
       })
 
       if (response.ok) {
+        // Send email notification to admin
+        await sendEmailClient({
+          type: 'contact',
+          data: formData
+        })
+
         setSubmitMessage("Thank you for your message! We'll get back to you soon.")
         setFormData({ name: "", email: "", phone: "", message: "" })
+        setCaptchaVerified(false)
       } else {
         setSubmitMessage("Failed to send message. Please try again.")
       }
@@ -159,9 +183,25 @@ export default function ContactPage() {
                   {submitMessage}
                 </div>
               )}
+              {/* Simple Captcha */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Security Check</label>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm bg-gray-100 px-3 py-2 rounded">What is 5 + 3?</span>
+                  <input
+                    type="text"
+                    placeholder="Answer"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]"
+                    onChange={(e) => setCaptchaVerified(e.target.value === '8')}
+                    required
+                  />
+                  {captchaVerified && <Shield className="h-5 w-5 text-green-500" />}
+                </div>
+              </div>
+
               <Button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !captchaVerified}
                 className="w-full bg-[#1e3a8a] hover:bg-[#1e3a8a]/90 flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 <Send className="h-4 w-4" />
@@ -176,8 +216,17 @@ export default function ContactPage() {
       <section className="bg-gray-100 py-16">
         <div className="mx-auto max-w-7xl px-4">
           <h2 className="font-heading text-2xl font-bold text-gray-900 mb-8 text-center">Find Us On Map</h2>
-          <div className="w-full h-96 bg-gray-300 rounded-lg flex items-center justify-center">
-            <p className="text-gray-600">Google Map Integration Coming Soon</p>
+          <div className="w-full h-96 bg-gray-300 rounded-lg overflow-hidden">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.001!2d77.5946!3d12.9716!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0x94fc211d36ba29b!2sBangalore%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1703123456789!5m2!1sen!2sin"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Master's Gurukulam Location"
+            />
           </div>
         </div>
       </section>

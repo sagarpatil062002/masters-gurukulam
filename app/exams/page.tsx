@@ -123,7 +123,14 @@ export default function ExamsPage() {
                     )}
                   </div>
 
-                  <Button className="w-full bg-[#1e3a8a] hover:bg-[#1e3a8a]/90" disabled={status === "Closed"}>
+                  <Button
+                    className="w-full bg-[#1e3a8a] hover:bg-[#1e3a8a]/90"
+                    disabled={status === "Closed"}
+                    onClick={() => {
+                      // TODO: Open registration form modal
+                      alert('Registration form will be implemented with modal popup')
+                    }}
+                  >
                     {status === "Open" ? "Register Now" : "Registration Closed"}
                   </Button>
                 </Card>
@@ -138,14 +145,28 @@ export default function ExamsPage() {
         <div className="mx-auto max-w-7xl px-4">
           <h2 className="font-heading text-3xl font-bold text-gray-900 mb-8 text-center">Check Your Results</h2>
           <Card className="p-8 max-w-md mx-auto w-full">
-            <form className="space-y-4" onSubmit={(e) => {
+            <form className="space-y-4" onSubmit={async (e) => {
               e.preventDefault()
-              // TODO: Implement result checking logic
-              alert('Result checking functionality will be implemented with API integration')
+              const formData = new FormData(e.target as HTMLFormElement)
+              const rollNumber = formData.get('rollNumber') as string
+              const email = formData.get('email') as string
+
+              try {
+                const response = await fetch(`/api/exam-results?rollNumber=${rollNumber}&email=${email}`)
+                if (response.ok) {
+                  const result = await response.json()
+                  alert(`Result: ${result.score}/100\nStatus: ${result.status}`)
+                } else {
+                  alert('Result not found or not published yet.')
+                }
+              } catch (error) {
+                alert('Error checking results. Please try again.')
+              }
             }}>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Roll Number</label>
                 <input
+                  name="rollNumber"
                   type="text"
                   placeholder="Enter your roll number"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]"
@@ -155,6 +176,7 @@ export default function ExamsPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                 <input
+                  name="email"
                   type="email"
                   placeholder="Enter your email"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]"
