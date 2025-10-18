@@ -37,7 +37,6 @@ export default function RootLayout({
         <NotificationBar />
         <SiteHeader />
         <main className="flex-1">{children}</main>
-        <SiteFooter />
         <Analytics />
       </body>
     </html>
