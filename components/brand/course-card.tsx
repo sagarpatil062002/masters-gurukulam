@@ -36,7 +36,7 @@ export function CourseCard({ title, duration, description }: CourseCardProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
+    mobile: "",
     message: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -76,7 +76,7 @@ export function CourseCard({ title, duration, description }: CourseCardProps) {
         })
 
         setSubmitMessage("Thank you for your enquiry! We'll get back to you soon.")
-        setFormData({ name: "", email: "", phone: "", message: "" })
+        setFormData({ name: "", email: "", mobile: "", message: "" })
         setTimeout(() => setIsDialogOpen(false), 2000)
       } else {
         setSubmitMessage("Failed to send enquiry. Please try again.")
@@ -134,12 +134,12 @@ export function CourseCard({ title, duration, description }: CourseCardProps) {
                 />
               </div>
               <div>
-                <Label htmlFor="phone">Phone</Label>
+                <Label htmlFor="mobile">Phone</Label>
                 <Input
-                  id="phone"
-                  name="phone"
+                  id="mobile"
+                  name="mobile"
                   type="tel"
-                  value={formData.phone}
+                  value={formData.mobile}
                   onChange={handleChange}
                   placeholder="+91 XXXXX XXXXX"
                   required

@@ -27,7 +27,7 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
+    mobile: "",
     message: "",
   })
 
@@ -62,7 +62,7 @@ export default function ContactPage() {
         })
 
         setSubmitMessage("Thank you for your message! We'll get back to you soon.")
-        setFormData({ name: "", email: "", phone: "", message: "" })
+        setFormData({ name: "", email: "", mobile: "", message: "" })
         setCaptchaVerified(false)
       } else {
         setSubmitMessage("Failed to send message. Please try again.")
@@ -101,9 +101,8 @@ export default function ContactPage() {
               <Card className="p-6 flex gap-4">
                 <Phone className="h-6 w-6 text-[#1e3a8a] flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-gray-900">Phone</h3>
-                  <p className="text-gray-600 text-sm mt-1">+91 123 456 7890</p>
-                  <p className="text-gray-600 text-sm">+91 987 654 3210</p>
+                  <h3 className="font-semibold text-gray-900">Contact No.</h3>
+                  <p className="text-gray-600 text-sm mt-1"><a href="tel:+919226227029" className="hover:text-[#1e3a8a]">+919226227029 (Prashant Khatkale, Administrator)</a></p>
                 </div>
               </Card>
 
@@ -111,8 +110,7 @@ export default function ContactPage() {
                 <Mail className="h-6 w-6 text-[#1e3a8a] flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-gray-900">Email</h3>
-                  <p className="text-gray-600 text-sm mt-1">info@mastersgurukulam.com</p>
-                  <p className="text-gray-600 text-sm">support@mastersgurukulam.com</p>
+                  <p className="text-gray-600 text-sm mt-1"><a href="mailto:mastersgurukulam@gmail.com" className="hover:text-[#1e3a8a]">mastersgurukulam@gmail.com</a></p>
                 </div>
               </Card>
 
@@ -120,8 +118,7 @@ export default function ContactPage() {
                 <MapPin className="h-6 w-6 text-[#1e3a8a] flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-gray-900">Address</h3>
-                  <p className="text-gray-600 text-sm mt-1">123 Education Street</p>
-                  <p className="text-gray-600 text-sm">City, State 560001</p>
+                  <p className="text-gray-600 text-sm mt-1">Master's Gurukulam, Valivade-Gandhinagar Main Road, Near Bajrang Talim, Valivade, Kolhapur</p>
                 </div>
               </Card>
             </div>
@@ -159,8 +156,8 @@ export default function ContactPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
                 <input
                   type="tel"
-                  name="phone"
-                  value={formData.phone}
+                  name="mobile"
+                  value={formData.mobile}
                   onChange={handleChange}
                   placeholder="+91 XXXXX XXXXX"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]"
@@ -218,7 +215,7 @@ export default function ContactPage() {
           <h2 className="font-heading text-2xl font-bold text-gray-900 mb-8 text-center">Find Us On Map</h2>
           <div className="w-full h-96 bg-gray-300 rounded-lg overflow-hidden">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.001!2d77.5946!3d12.9716!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0x94fc211d36ba29b!2sBangalore%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1703123456789!5m2!1sen!2sin"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3821.2540665159145!2d74.31253699999999!3d16.7177799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc1030078f20593%3A0x919429bf2ddec8af!2sMASTERS%20GURUKULAM%20(IIT%2C%20MEDICAL%20%26%20DEFENCE%20ACADEMY)!5e0!3m2!1sen!2sin!4v1734235405313!5m2!1sen!2sin"
               width="100%"
               height="100%"
               style={{ border: 0 }}
